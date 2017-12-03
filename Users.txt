@@ -1,0 +1,143 @@
+In [1]: from apps.user_login.models import *
+
+In [2]: Users.objects.all()
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+<ipython-input-2-9a61cc974b48> in <module>()
+----> 1 Users.objects.all()
+
+NameError: name 'Users' is not defined
+
+In [3]: User.objects.all()
+Out[3]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>]>
+
+In [4]: User.objects.create(first_name="Danny", last_name="Moon", email="Dannymoon@gmail.com", age="90")
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-4-7b6df720f9b1> in <module>()
+----> 1 User.objects.create(first_name="Danny", last_name="Moon", email="Dannymoon@gmail.com", age="90")
+
+/Users/jk/Desktop/CodingDojo/Python/myEnvironments/djangoEnv/lib/python2.7/site-packages/django/db/models/manager.pyc in manager_method(self, *args, **kwargs)
+     83         def create_method(name, method):
+     84             def manager_method(self, *args, **kwargs):
+---> 85                 return getattr(self.get_queryset(), name)(*args, **kwargs)
+     86             manager_method.__name__ = method.__name__
+     87             manager_method.__doc__ = method.__doc__
+
+/Users/jk/Desktop/CodingDojo/Python/myEnvironments/djangoEnv/lib/python2.7/site-packages/django/db/models/query.pyc in create(self, **kwargs)
+    395         and returning the created object.
+    396         """
+--> 397         obj = self.model(**kwargs)
+    398         self._for_write = True
+    399         obj.save(force_insert=True, using=self.db)
+
+/Users/jk/Desktop/CodingDojo/Python/myEnvironments/djangoEnv/lib/python2.7/site-packages/django/db/models/base.pyc in __init__(self, *args, **kwargs)
+    553                     pass
+    554             if kwargs:
+--> 555                 raise TypeError("'%s' is an invalid keyword argument for this function" % list(kwargs)[0])
+    556         super(Model, self).__init__()
+    557         signals.post_init.send(sender=self.__class__, instance=self)
+
+TypeError: 'email' is an invalid keyword argument for this function
+
+In [5]: User.objects.create(first_name="Danny", last_name="Moon", email_address="dannymoon@gmail.com", age="90")
+Out[5]: <User object: Danny Moon dannymoon@gmail.com 90>
+
+In [6]: User.objects.all()
+Out[6]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>]>
+
+In [7]: User.objects.create(first_name="Dan", last_name="M", email_address="dasdfn@gmail.com", age="20")
+Out[7]: <User object: Dan M dasdfn@gmail.com 20>
+
+In [8]: User.objects.all()
+Out[8]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Dan M dasdfn@gmail.com 20>]>
+
+In [9]: User.objects.first()
+Out[9]: <User object: Jared Kim jaredjkim@gmail.com 100>
+
+In [10]: User.objects.filter(first_name)
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+<ipython-input-10-ae0a52c85731> in <module>()
+----> 1 User.objects.filter(first_name)
+
+NameError: name 'first_name' is not defined
+
+In [11]: User.objects.create(first_name="ean", last_name="a", email_address="4asdfn@gmail.com", age="50")
+Out[11]: <User object: ean a 4asdfn@gmail.com 50>
+
+In [12]: User.objects.create(first_name="vae", last_name="ga", email_address="asffn@gmail.com", age="30")
+Out[12]: <User object: vae ga asffn@gmail.com 30>
+
+In [13]: User.objects.order_by(first_name DESC)
+  File "<ipython-input-13-294bc97d8393>", line 1
+    User.objects.order_by(first_name DESC)
+                                        ^
+SyntaxError: invalid syntax
+
+
+In [14]: User.objects.filter(first_name)order_by('-first_name')
+  File "<ipython-input-14-f32f11682d1f>", line 1
+    User.objects.filter(first_name)order_by('-first_name')
+                                          ^
+SyntaxError: invalid syntax
+
+
+In [15]: User.objects.order_by('-first_name')
+Out[15]: <QuerySet [<User object: vae ga asffn@gmail.com 30>, <User object: ean a 4asdfn@gmail.com 50>, <User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Dan M dasdfn@gmail.com 20>]>
+
+In [16]: User.objects.order_by('first_name')
+Out[16]: <QuerySet [<User object: Dan M dasdfn@gmail.com 20>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Jared Kim jaredjkim@gmail.com 100>, <User object: ean a 4asdfn@gmail.com 50>, <User object: vae ga asffn@gmail.com 30>]>
+
+In [17]: u3 = User.objects.get(id=3)
+
+In [18]: u3.last_name = "id3lastnamechange"
+
+In [19]: save()
+'' was not found in history, as a file, url, nor in the user namespace.
+
+In [20]: u3.save()
+
+In [21]: User.object.all()
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-21-4c2874f2828e> in <module>()
+----> 1 User.object.all()
+
+AttributeError: type object 'User' has no attribute 'object'
+
+In [22]: User.objects.all()
+Out[22]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Dan id3lastnamechange dasdfn@gmail.com 20>, <User object: ean a 4asdfn@gmail.com 50>, <User object: vae ga asffn@gmail.com 30>]>
+
+In [23]: User.objects.get(id=4).delete()
+Out[23]: (1, {u'user_login.User': 1})
+
+In [24]: User.objects.all()
+Out[24]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Dan id3lastnamechange dasdfn@gmail.com 20>, <User object: vae ga asffn@gmail.com 30>]>
+
+In [25]: User.objects.get(id=4).delete()
+---------------------------------------------------------------------------
+DoesNotExist                              Traceback (most recent call last)
+<ipython-input-25-4014453aaf34> in <module>()
+----> 1 User.objects.get(id=4).delete()
+
+/Users/jk/Desktop/CodingDojo/Python/myEnvironments/djangoEnv/lib/python2.7/site-packages/django/db/models/manager.pyc in manager_method(self, *args, **kwargs)
+     83         def create_method(name, method):
+     84             def manager_method(self, *args, **kwargs):
+---> 85                 return getattr(self.get_queryset(), name)(*args, **kwargs)
+     86             manager_method.__name__ = method.__name__
+     87             manager_method.__doc__ = method.__doc__
+
+/Users/jk/Desktop/CodingDojo/Python/myEnvironments/djangoEnv/lib/python2.7/site-packages/django/db/models/query.pyc in get(self, *args, **kwargs)
+    383             raise self.model.DoesNotExist(
+    384                 "%s matching query does not exist." %
+--> 385                 self.model._meta.object_name
+    386             )
+    387         raise self.model.MultipleObjectsReturned(
+
+DoesNotExist: User matching query does not exist.
+
+In [26]: User.objects.all()
+Out[26]: <QuerySet [<User object: Jared Kim jaredjkim@gmail.com 100>, <User object: Danny Moon dannymoon@gmail.com 90>, <User object: Dan id3lastnamechange dasdfn@gmail.com 20>, <User object: vae ga asffn@gmail.com 30>]>
+
+In [27]: 
